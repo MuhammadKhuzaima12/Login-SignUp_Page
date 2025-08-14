@@ -24,12 +24,6 @@ A responsive login and sign-up system with form validation and local storage per
 - SweetAlert2
 - Animate.css
 
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/your-username/login-signup-system.git
-
 
 login-signup-system/
 ├── assets/
