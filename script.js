@@ -3,6 +3,27 @@ const signup_link = document.getElementById("signup_link");
 const signin = document.getElementById("sign_in_id");
 const signup = document.getElementById("sign_up_id");
 
+function sweet_alert(title,icon) {
+  Swal.fire({
+    title: `${title}`,
+    icon: `${icon}`,
+    showClass: {
+      popup: `
+      animate__animated
+      animate__fadeInDown
+      animate__faster
+    `,
+    },
+    hideClass: {
+      popup: `
+      animate__animated
+      animate__fadeOutUp
+      animate__faster
+    `,
+    },
+  });
+}
+
 // Navigator Function
 function change_sign(event) {
   const targeted_id = event.currentTarget.id;
@@ -17,7 +38,8 @@ function change_sign(event) {
 
 // Show/Hide Password
 function show_pass(event) {
-  const show_icon = document.getElementById(event.currentTarget.id);
+  // console.log(event.currentTarget)
+  const show_icon = event.currentTarget;
   const show_icon_parent = show_icon.parentElement;
   const parent_nextSibling = show_icon_parent.nextElementSibling;
   console.log(show_icon);
@@ -63,10 +85,10 @@ function on_signup(event) {
   const userpassword_value = document.getElementById("user_password").value;
   const userphone_value = document.getElementById("user_phone").value.trim();
 
-  console.log(username_value);
-  console.log(useremail_value);
-  console.log(userpassword_value);
-  console.log(userphone_value);
+  // console.log(username_value);
+  // console.log(useremail_value);
+  // console.log(userpassword_value);
+  // console.log(userphone_value);
 
   // Inputs to focus
   const useremail = document.getElementById("user_email");
@@ -75,28 +97,12 @@ function on_signup(event) {
 
   // Get Users (if exist)
   const users = JSON.parse(localStorage.getItem("users") || "[]");
-  console.log(users);
+  // console.log(users);
   if (users.length > 0) {
     for (let i = 0; i < users.length; i++) {
       console.log(users[i].userEmail);
       if (useremail_value === users[i].userEmail) {
-        Swal.fire({
-          title: "Email already registered",
-          showClass: {
-            popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-          },
-          hideClass: {
-            popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-          },
-        });
+        sweet_alert( "Email already registered","error")
         return;
       }
     }
@@ -107,23 +113,7 @@ function on_signup(event) {
   if (!email_status) {
     useremail.focus();
     useremail.classList.add("invalid");
-    Swal.fire({
-      title: `Invalid Email!`,
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( `Invalid Email!`,"error")
     setTimeout(() => {
       useremail.classList.remove("invalid");
     }, 3000);
@@ -133,23 +123,7 @@ function on_signup(event) {
   const password_status = valid_password(userpassword_value);
 
   if (!password_status) {
-    Swal.fire({
-      title: "Password doesn't meet requirements!",
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( "Password doesn't meet requirements!","error")
     userpassword.focus();
     userpassword.type = "text";
 
@@ -163,23 +137,7 @@ function on_signup(event) {
   if (!phone_status) {
     userphone.focus();
     userphone.classList.add("invalid");
-    Swal.fire({
-      title: `Invalid Phone Number!`,
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( `Invalid Phone Number!`,"error")
     setTimeout(() => {
       userphone.classList.remove("invalid");
     }, 3000);
@@ -199,23 +157,7 @@ function on_signup(event) {
   document.getElementById("user_password").value = "";
   document.getElementById("user_phone").value = "";
   // Show success and switch to login
-  Swal.fire({
-    title: "Registration successful! Please sign in.",
-    showClass: {
-      popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-    },
-    hideClass: {
-      popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-    },
-  });
+  sweet_alert( "Registration successful! Please sign in.","success")
   change_sign({ currentTarget: { id: "signin_link" } });
 }
 
@@ -234,23 +176,7 @@ function on_signin(event) {
   if (!email_status) {
     check_email.focus();
     check_email.classList.add("invalid");
-    Swal.fire({
-      title: `Invalid Email!`,
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( `Invalid Email!`,"error")
     setTimeout(() => {
       check_email.classList.remove("invalid");
     }, 3000);
@@ -259,23 +185,7 @@ function on_signin(event) {
 
   const password_status = valid_password(check_password_value);
   if (!password_status) {
-    Swal.fire({
-      title: "Password doesn't meet requirements!",
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( "Password doesn't meet requirements!","error")
     check_password.focus();
     check_password.type = "text";
 
@@ -293,44 +203,12 @@ function on_signin(event) {
       // checks the password after getting the email
       if (check_email_value === users[i].userEmail) {
         if (check_password_value !== users[i].userPassword) {
-          Swal.fire({
-            title: "Incorrect Password",
-            showClass: {
-              popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-            },
-            hideClass: {
-              popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-            },
-          });
+          sweet_alert( "Incorrect Password","error")
           check_password.focus();
           check_password.type = "text";
           return;
         } else {
-          Swal.fire({
-            title: "Login successful!",
-            showClass: {
-              popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-            },
-            hideClass: {
-              popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-            },
-          });
+          sweet_alert( "Login successful!","success")
           change_sign({ currentTarget: { id: "signup_link" } });
           return;
         }
@@ -338,23 +216,7 @@ function on_signin(event) {
 
       // alert when email don't match with any existing email
       if (check_email_value !== users[users.length - 1].userEmail) {
-        Swal.fire({
-          title: "No account found with this email!",
-          showClass: {
-            popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-          },
-          hideClass: {
-            popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-          },
-        });
+        sweet_alert( "No account found with this email!","error")
         check_email.focus();
         check_email.classList.add("invalid");
         setTimeout(() => {
@@ -364,23 +226,7 @@ function on_signin(event) {
       }
     }
   } else {
-    Swal.fire({
-      title: "There is not any email registered.",
-      showClass: {
-        popup: `
-      animate__animated
-      animate__fadeInDown
-      animate__faster
-    `,
-      },
-      hideClass: {
-        popup: `
-      animate__animated
-      animate__fadeOutUp
-      animate__faster
-    `,
-      },
-    });
+    sweet_alert( "There is not any email registered.","error")
     change_sign({ currentTarget: { id: "signup_link" } });
   }
 }
